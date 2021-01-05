@@ -680,19 +680,15 @@ attach_data.libbi <- function(x, file, data, in_place=FALSE, append=FALSE, overw
   if ((append || overwrite || "list" %in% class(data) || file == "obs") &&
         length(vars) > 0) {
     write_opts <- list(filename=target_file_name, variables=vars)
-    if (file == "obs") ## guess coord for observation files
-    {
-      if (length(x$time_dim) == 0) {
-        write_opts[["guess_time"]] <- TRUE
-      }
-      if (length(x$coord_dims) == 0) {
-        write_opts[["guess_coord"]] <- TRUE
-      } else {
-        write_opts[["coord_dims"]] <- x$coord_dims
-      }
-    }
-    if (length(x$time_dim) > 0) {
+    if (length(x$time_dim) == 0) {
+      write_opts[["guess_time"]] <- TRUE
+    } else {
       write_opts[["time_dim"]] <- x$time_dim
+    }
+    if (length(x$coord_dims) == 0) {
+      write_opts[["guess_coord"]] <- TRUE
+    } else {
+      write_opts[["coord_dims"]] <- x$coord_dims
     }
     write_opts[["dim_factors"]] <- x$dims
     write_opts[["append"]] <- append
